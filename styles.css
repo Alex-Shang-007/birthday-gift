@@ -189,3 +189,29 @@ audio {
     }
 }
 
+.love-letter {
+    max-width: 800px;
+    background: rgba(82, 255, 241, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    line-height: 1.8;
+    font-size: 1.1rem;
+    overflow-y: auto;
+    max-height: 80vh;
+    z-index: 100;
+}
+
+.love-letter h2 {
+    text-align: center;
+    color: #c252e2;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.love-letter p {
+    margin-bottom: 15px;
+    text-indent: 2em;
+}
+
+
