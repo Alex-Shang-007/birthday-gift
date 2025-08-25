@@ -214,4 +214,83 @@ audio {
     text-indent: 2em;
 }
 
+/* 抖音点赞动画样式 */
+.like-animation {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    font-size: 30px;
+    animation: like-animation 1s forwards;
+}
+
+@keyframes like-animation {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+    80% {
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1) translateY(-50px);
+    }
+}
+
+/* 波纹效果 */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: ripple-animation 1s ease-out;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.7;
+    }
+    100% {
+        width: 200px;
+        height: 200px;
+        opacity: 0;
+    }
+}
+
+/* 不同图标的波纹颜色 */
+.ripple.heart { background: rgba(255, 0, 0, 0.3); }
+.ripple.star { background: rgba(255, 215, 0, 0.3); }
+.ripple.moon { background: rgba(173, 216, 230, 0.3); }
+.ripple.cake { background: rgba(255, 182, 193, 0.3); }
+
+/* 粒子效果 */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    animation: particle-animation 1s ease-out forwards;
+}
+
+@keyframes particle-animation {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty));
+    }
+}
+
 
