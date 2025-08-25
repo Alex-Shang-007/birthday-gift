@@ -83,3 +83,140 @@ document.addEventListener('DOMContentLoaded', function() {
         musicPrompt.style.display = 'block';
     }
 });
+
+// 抖音点赞动画功能（随机图标版）
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('like-animation-container');
+    let likeCount = 0;
+    
+    // 可用的图标列表
+    const icons = [
+        { symbol: '💖', type: 'heart', color: 'rgba(255, 0, 0, 0.3)' },
+        { symbol: '🌟', type: 'star', color: 'rgba(255, 215, 0, 0.3)' },
+        { symbol: '🌙', type: 'moon', color: 'rgba(173, 216, 230, 0.3)' },
+        { symbol: '🎂', type: 'cake', color: 'rgba(255, 182, 193, 0.3)' }
+    ];
+    
+    // 随机选择图标
+    function getRandomIcon() {
+        return icons[Math.floor(Math.random() * icons.length)];
+    }
+    
+    // 创建点赞动画
+    function createLikeAnimation(x, y) {
+        likeCount++;
+        
+        // 随机选择一个图标
+        const randomIcon = getRandomIcon();
+        
+        // 创建主图标元素
+        const icon = document.createElement('div');
+        icon.className = 'like-animation';
+        icon.innerHTML = randomIcon.symbol;
+        icon.style.left = `${x}px`;
+        icon.style.top = `${y}px`;
+        container.appendChild(icon);
+        
+        // 创建波纹效果
+        const ripple = document.createElement('div');
+        ripple.className = `ripple ${randomIcon.type}`;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        container.appendChild(ripple);
+        
+        // 创建粒子效果（使用相同的图标）
+        for (let i = 0; i < 6; i++) {
+            const angle = (i / 6) * Math.PI * 2;
+            const distance = 50 + Math.random() * 50;
+            const tx = Math.cos(angle) * distance;
+            const ty = Math.sin(angle) * distance;
+            
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.innerHTML = randomIcon.symbol;
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.setProperty('--tx', `${tx}px`);
+            particle.style.setProperty('--ty', `${ty}px`);
+            particle.style.fontSize = `${10 + Math.random() * 10}px`;
+            container.appendChild(particle);
+            
+            // 移除粒子元素
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 1000);
+        }
+        
+        // 移除元素
+        setTimeout(() => {
+            if (icon.parentNode) {
+                icon.parentNode.removeChild(icon);
+            }
+            if (ripple.parentNode) {
+                ripple.parentNode.removeChild(ripple);
+            }
+        }, 1000);
+        
+        return randomIcon;
+    }
+    
+    // 监听整个文档的点击事件
+    document.addEventListener('click', function(e) {
+        createLikeAnimation(e.clientX, e.clientY);
+    });
+    
+    // 特别为特定元素添加更强烈的动画效果
+    const specialElements = document.querySelectorAll('.heart, .heart-icon, .big-heart, .star, .cake, .love-letter');
+    specialElements.forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.stopPropagation(); // 阻止事件冒泡
+            
+            // 创建多个动画效果，使用不同的随机图标
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const rect = element.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2 + (Math.random() - 0.5) * 50;
+                    const y = rect.top + rect.height / 2 + (Math.random() - 0.5) * 50;
+                    createLikeAnimation(x, y);
+                }, i * 100);
+            }
+        });
+    });
+    
+    // 双击点赞功能（随机图标版）
+    let lastTap = 0;
+    document.addEventListener('click', function(e) {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        
+        if (tapLength < 300 && tapLength > 0) {
+            // 双击事件 - 创建多个不同图标的动画
+            for (let i = 0; i < 4; i++) {
+                setTimeout(() => {
+                    const x = e.clientX + (Math.random() - 0.5) * 100;
+                    const y = e.clientY + (Math.random() - 0.5) * 100;
+                    createLikeAnimation(x, y);
+                }, i * 100);
+            }
+        }
+        
+        lastTap = currentTime;
+    });
+    
+    // 自动生成一些随机动画（可选）
+    function createRandomAnimation() {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+        createLikeAnimation(x, y);
+        
+        // 随机时间后再次创建
+        setTimeout(createRandomAnimation, 2000 + Math.random() * 3000);
+    }
+    
+    // 页面加载后开始自动生成一些动画
+    setTimeout(() => {
+        // createRandomAnimation(); // 取消注释这行可以启用自动动画
+    }, 3000);
+});
